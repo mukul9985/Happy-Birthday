@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#ff7b9c">
+    <title>Happy Birthday, Priyanka!</title>
+    <style>
+        :root {
+            --ink: #423755;
+            --pink: #ff759b;
+            --lav: #aa96df;
+            --mint: #9be0c9;
+            --glass: rgba(255, 255, 255, .77)
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            color: var(--ink);
+            font: 16px/1.55 "Trebuchet MS", "Segoe UI", sans-serif;
+            overflow: hidden
+        }
+
+        .page {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+            transition: opacity .7s ease, transform .7s ease
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: none
+        }
+
+        .page::before,
+        .page::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(3px);
+            opacity: .58;
+            z-index: -1;
+            animation: drift 9s ease-in-out infinite alternate
+        }
+
+        .page::before {
+            width: 390px;
+            height: 390px;
+            left: -145px;
+            top: -130px;
+            background: #ffc5d4
+        }
+
+        .page::after {
+            width: 350px;
+            height: 350px;
+            right: -120px;
+            bottom: -130px;
+            background: #bcecdc;
+            animation-delay: -5s
+        }
+
+        .p1 {
+            background: linear-gradient(135deg, #fff0eb, #f5efff 54%, #eafff8)
+        }
+
+        .p2 {
+            background: linear-gradient(135deg, #fff9e3, #ffeef3 57%, #f2eeff)
+        }
+
+        .p3 {
+            background: linear-gradient(135deg, #edfff9, #f4efff 51%, #fff1e7)
+        }
+
+        .p4 {
+            background: linear-gradient(135deg, #fff0f5, #fff7e8 50%, #f0efff)
+        }
+
+        .wrap {
+            width: min(800px, 100%);
+            text-align: center;
+            position: relative
+        }
+
+        .glass {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, .87);
+            box-shadow: 0 25px 75px rgba(72, 48, 96, .15);
+            backdrop-filter: blur(12px);
+            border-radius: 38px;
+            padding: clamp(30px, 6vw, 65px)
+        }
+
+        .eyebrow {
+            font-size: .75rem;
+            letter-spacing: .17em;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #907ab9
+        }
+
+        h1,
+        h2 {
+            line-height: 1;
+            letter-spacing: -.055em;
+            margin: .45rem 0 1.1rem
+        }
+
+        h1 {
+            font-size: clamp(3rem, 9vw, 5.8rem)
+        }
+
+        h2 {
+            font-size: clamp(2.3rem, 6vw, 4.2rem)
+        }
+
+        .name {
+            color: var(--pink);
+            display: block
+        }
+
+        .lead {
+            font-size: 1.12rem;
+            max-width: 520px;
+            margin: 0 auto 26px
+        }
+
+        .next {
+            border: 0;
+            border-radius: 999px;
+            padding: 15px 28px;
+            color: #fff;
+            background: linear-gradient(110deg, var(--pink), #f69c79);
+            font-weight: 700;
+            box-shadow: 0 11px 22px rgba(255, 110, 150, .35);
+            transition: transform .2s, box-shadow .2s
+        }
+
+        .next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 26px rgba(255, 110, 150, .42)
+        }
+
+        .back {
+            border: 0;
+            background: transparent;
+            color: #786c8c;
+            font-weight: 700;
+            padding: 12px 17px
+        }
+
+        .progress {
+            position: fixed;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 8px
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: rgba(75, 58, 94, .2);
+            transition: all .35s
+        }
+
+        .dot.on {
+            width: 28px;
+            border-radius: 9px;
+            background: var(--pink)
+        }
+
+        .float {
+            position: absolute;
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            user-select: none;
+            animation: float 5s ease-in-out infinite
+        }
+
+        .a {
+            left: 8%;
+            top: 17%
+        }
+
+        .b {
+            right: 10%;
+            top: 17%;
+            animation-delay: -2s
+        }
+
+        .c {
+            left: 10%;
+            bottom: 12%;
+            animation-delay: -3s
+        }
+
+        .d {
+            right: 10%;
+            bottom: 13%;
+            animation-delay: -1s
+        }
+
+        .cake {
+            font-size: clamp(8rem, 22vw, 15rem);
+            filter: drop-shadow(0 14px 10px rgba(119, 75, 102, .16));
+            animation: bob 3s ease-in-out infinite
+        }
+
+        .wish {
+            font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+            font-weight: 600;
+            margin: 0 auto 21px;
+            max-width: 620px
+        }
+
+        .sign {
+            color: #a36193;
+            font-weight: 700
+        }
+
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            text-align: left
+        }
+
+        .memory {
+            border: 0;
+            border-radius: 23px;
+            min-height: 215px;
+            padding: 20px;
+            color: var(--ink);
+            background: rgba(255, 255, 255, .8);
+            box-shadow: 0 10px 23px rgba(63, 44, 84, .09);
+            transition: transform .25s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .memory:hover {
+            transform: translateY(-7px)
+        }
+
+        .memory::before {
+            content: "";
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--c);
+            opacity: .22;
+            right: -40px;
+            top: -45px
+        }
+
+        .memory>* {
+            position: relative
+        }
+
+        .memory .icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 45px
+        }
+
+        .memory strong {
+            display: block;
+            font-size: 1.2rem
+        }
+
+        .memory small {
+            color: #726780
+        }
+
+        .tip {
+            font-size: .88rem;
+            color: #756a84;
+            margin-top: 20px
+        }
+
+        .final {
+            color: #fff;
+            background: linear-gradient(135deg, #8168bf, #ff719a);
+            padding: clamp(35px, 7vw, 72px);
+            border-radius: 38px
+        }
+
+        .final .eyebrow {
+            color: #ffe89d
+        }
+
+        .final-card {
+            margin: 25px auto 0;
+            max-width: 560px;
+            color: var(--ink);
+            background: #fffdf8;
+            border-radius: 21px;
+            padding: 22px 25px;
+            text-align: left;
+            box-shadow: 0 11px 30px rgba(44, 23, 72, .2);
+            transform: scale(.85);
+            opacity: 0;
+            transition: transform .6s ease, opacity .6s ease
+        }
+
+        .final-card.show {
+            transform: none;
+            opacity: 1
+        }
+
+        .confetti {
+            position: fixed;
+            top: -20px;
+            width: 10px;
+            height: 16px;
+            pointer-events: none;
+            z-index: 20;
+            animation: fall 3s linear forwards
+        }
+
+        .music {
+            position: fixed;
+            right: 17px;
+            bottom: 17px;
+            border: 0;
+            width: 47px;
+            height: 47px;
+            border-radius: 50%;
+            background: #fff;
+            color: var(--pink);
+            box-shadow: 0 8px 25px rgba(60, 43, 83, .2);
+            font-size: 1.2rem;
+            z-index: 12
+        }
+
+        @keyframes drift {
+            to {
+                transform: translate(38px, 45px) scale(1.13)
+            }
+        }
+
+        @keyframes float {
+            50% {
+                transform: translateY(-15px) rotate(8deg)
+            }
+        }
+
+        @keyframes bob {
+            50% {
+                transform: translateY(-13px)
+            }
+        }
+
+        @keyframes fall {
+            to {
+                transform: translate(var(--x), 110vh) rotate(680deg);
+                opacity: 0
+            }
+        }
+
+        @media(max-width:620px) {
+            .memory-grid {
+                grid-template-columns: 1fr
+            }
+
+            .memory {
+                min-height: 125px
+            }
+
+            .memory .icon {
+                display: inline-block;
+                margin: 0 14px 0 0
+            }
+
+            .memory strong {
+                display: inline-block
+            }
+
+            .page {
+                padding: 16px
+            }
+
+            .glass,
+            .final {
+                border-radius: 30px;
+                padding: 30px 20px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                transition-duration: .01ms !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="progress" aria-label="Birthday surprise progress"><i class="dot on"></i><i class="dot"></i><i
+            class="dot"></i><i class="dot"></i></nav>
+    <main>
+        <section class="page p1 active" data-page="0"><span class="float a">🎈</span><span
+                class="float b">🧁</span><span class="float c">🌼</span><span class="float d">🎁</span>
+            <div class="wrap glass">
+                <div class="eyebrow">A small birthday surprise</div>
+                <h1>Happy Birthday,<span class="name">Priyanka!</span></h1>
+                <p class="lead">A little corner of the internet made to add a few extra smiles to your day.</p><button
+                    class="next" type="button">Open your surprise ✨</button>
+                <p class="tip">From Mukul — with lots of good wishes</p>
+            </div>
+        </section>
+        <section class="page p2" data-page="1">
+            <div class="wrap glass">
+                <div class="eyebrow">Page 2 · Make a wish</div>
+                <div class="cake" aria-label="Birthday cake">🎂</div>
+                <h2>Today is all about you!</h2>
+                <p class="wish">May this new year bring you calm days, bright opportunities, real laughter, and so many
+                    reasons to feel proud of yourself.</p>
+                <p class="sign">You deserve every good thing coming your way.</p><button class="back" type="button">←
+                    Back</button><button class="next" type="button">A few sweet memories →</button>
+            </div>
+        </section>
+        <section class="page p3" data-page="2">
+            <div class="wrap glass">
+                <div class="eyebrow">Page 3 · Tiny memory lane</div>
+                <h2>Three reasons you’re awesome</h2>
+                <p class="lead">Click each card to see what it says...</p>
+                <div class="memory-grid"><button class="memory" style="--c:#ff8eae"
+                        data-msg="Capture every happy moment — a spontaneous laugh, a warm hug, or a quiet laugh."><span
+                            class="icon">📸</span><strong>A happy moment</strong><small>Tap for an
+                            idea</small></button><button class="memory" style="--c:#ac99ea"
+                        data-msg="Always looks Fabolous and confident in any outfit."><span
+                            class="icon">🌟</span><strong>Her superpower</strong><small>Tap for an
+                            idea</small></button><button class="memory" style="--c:#8de1c6"
+                        data-msg="Favourite thing to maine shayad hasno hi lage hai. I am right or not."><span
+                            class="icon">🍀</span><strong>Favorite things</strong><small>Tap for an
+                            idea</small></button></div>
+                <p class="tip" id="prompt" aria-live="polite">Always live Happy and Healthy!</p>
+                <button class="back" type="button">← Back</button><button class="next" type="button">One final surprise
+                    →</button>
+            </div>
+        </section>
+        <section class="page p4" data-page="3">
+            <div class="wrap final">
+                <div class="eyebrow">Page 4 · Final surprise</div>
+                <h2>A birthday wish, just for you</h2>
+                <p class="lead">There’s one last little note waiting to be unwrapped.</p><button class="next"
+                    id="unwrap" type="button">Unwrap it 🎀</button>
+                <div class="final-card" id="letter"><strong>Dear Priyanka,</strong>
+                    <p>Keep being your warm, wonderful self. I hope this year brings you more laughter, more confidence,
+                        and many moments that feel like sunshine. Have the happiest birthday! 🎉</p>
+                    <p><strong>— Mukul</strong></p>
+                </div><button class="back" type="button" style="color:#fff;margin-top:16px">← Back</button>
+            </div>
+        </section>
+    </main>
+    <button class="music" id="music" type="button" aria-label="Play a cheerful birthday tune">♫</button>
+    <script>
+        let page = 0; const pages = [...document.querySelectorAll('.page')], dots = [...document.querySelectorAll('.dot')], reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+        function show(n) { page = Math.max(0, Math.min(n, pages.length - 1)); pages.forEach((p, i) => p.classList.toggle('active', i === page)); dots.forEach((d, i) => d.classList.toggle('on', i === page)); if (page > 0) celebrate(28) }
+        document.querySelectorAll('.next').forEach(b => b.addEventListener('click', () => { if (b.id === 'unwrap') { document.getElementById('letter').classList.add('show'); celebrate(90) } else show(page + 1) })); document.querySelectorAll('.back').forEach(b => b.addEventListener('click', () => show(page - 1))); document.querySelectorAll('.memory').forEach(c => c.addEventListener('click', () => document.getElementById('prompt').textContent = c.dataset.msg));
+        function celebrate(n) { if (reduce) return; const colors = ['#ff759b', '#ffc18d', '#aa96df', '#9be0c9', '#fff0a8']; for (let i = 0; i < n; i++) { let x = document.createElement('i'); x.className = 'confetti'; x.style.left = Math.random() * 100 + 'vw'; x.style.background = colors[i % 5]; x.style.setProperty('--x', (Math.random() * 180 - 90) + 'px'); x.style.animationDelay = Math.random() * .35 + 's'; document.body.append(x); x.addEventListener('animationend', () => x.remove()) } }
+        let playing = false; document.getElementById('music').addEventListener('click', () => { if (playing) { playing = false; document.getElementById('music').textContent = '♫'; return } playing = true; document.getElementById('music').textContent = '♪'; const ctx = new (window.AudioContext || window.webkitAudioContext)(), notes = [523, 523, 587, 523, 698, 659, 523, 523, 587, 523, 784, 698]; let i = 0; function play() { if (!playing || i === notes.length) { playing = false; document.getElementById('music').textContent = '♫'; return } let o = ctx.createOscillator(), g = ctx.createGain(); o.frequency.value = notes[i++]; g.gain.setValueAtTime(.075, ctx.currentTime); g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .31); o.connect(g).connect(ctx.destination); o.start(); o.stop(ctx.currentTime + .33); setTimeout(play, 345) } play() });
+    </script>
+</body>
+
+</html>
